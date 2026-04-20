@@ -33,7 +33,7 @@ class IntDictionaryConverter : JsonConverter<Dictionary<int, int>>
     public override void WriteJson(JsonWriter writer, Dictionary<int, int>? value, JsonSerializer serializer)
     {
         writer.WriteStartObject();
-        foreach (var kv in value)
+        foreach (var kv in value!)
         {
             writer.WritePropertyName(kv.Key.ToString());
             writer.WriteValue(kv.Value);

@@ -80,7 +80,7 @@ public class ProxyOptions
 {
     public bool Enabled { get; set; } = true;
     public int Port { get; set; } = 8888;
-    public int ServerHttpPort { get; set; } = 8080;
+    public int ServerHttpPort { get; set; } = 21500;
     public bool InstallRootCertificate { get; set; } = true;
     public bool ManageSystemProxy { get; set; } = true;
     public bool RestoreSystemProxyOnStop { get; set; } = true;

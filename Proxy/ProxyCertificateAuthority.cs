@@ -47,7 +47,7 @@ public sealed class ProxyCertificateAuthority
 
         if (File.Exists(pfxPath))
         {
-            var existing = new X509Certificate2(
+            var existing = X509CertificateLoader.LoadPkcs12(
                 File.ReadAllBytes(pfxPath),
                 Password,
                 X509KeyStorageFlags.Exportable | X509KeyStorageFlags.UserKeySet);
@@ -70,7 +70,7 @@ public sealed class ProxyCertificateAuthority
         request.CertificateExtensions.Add(new X509SubjectKeyIdentifierExtension(request.PublicKey, false));
 
         var root = request.CreateSelfSigned(DateTimeOffset.UtcNow.AddDays(-1), DateTimeOffset.UtcNow.AddYears(10));
-        var exportable = new X509Certificate2(
+        var exportable = X509CertificateLoader.LoadPkcs12(
             root.Export(X509ContentType.Pfx, Password),
             Password,
             X509KeyStorageFlags.Exportable | X509KeyStorageFlags.UserKeySet);
@@ -104,9 +104,9 @@ public sealed class ProxyCertificateAuthority
             DateTimeOffset.UtcNow.AddYears(2),
             serial);
 
-        return new X509Certificate2(
+        return X509CertificateLoader.LoadPkcs12(
             certificate.CopyWithPrivateKey(rsa).Export(X509ContentType.Pfx),
-            (string?)null,
+            null,
             X509KeyStorageFlags.Exportable | X509KeyStorageFlags.UserKeySet);
     }
 

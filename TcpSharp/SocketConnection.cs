@@ -80,7 +80,7 @@ public class SocketConnection
         {
             return !((Socket.Poll(1000, SelectMode.SelectRead) && (Socket.Available == 0)) || !Socket.Connected);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return false;
         }
