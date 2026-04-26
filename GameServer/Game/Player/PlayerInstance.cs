@@ -244,12 +244,11 @@ public class PlayerInstance(PlayerGameData data)
             yield return (4, guideId, 999);
 
         // Launch.GPASSID = 22 stores pass counts. ChapterLevel.GID = 21 stores star flags.
-        // Completing the prologue/early chapter range prevents function conditions from
-        // treating the account as a fresh tutorial player.
-        for (uint levelId = 10_000; levelId <= 10_700; levelId++)
+        // Unlock every level defined in level.json so all chapters are accessible from the start.
+        foreach (var levelId in GameData.ChapterLevelData.Keys)
         {
             yield return (21, levelId, 7);
-            yield return (22, levelId, 1);
+            yield return (22, levelId, 1_700_000_000);
         }
     }
     #endregion

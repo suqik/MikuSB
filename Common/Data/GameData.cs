@@ -11,6 +11,7 @@ public static class GameData
     public static Dictionary<int, UpgradeExpExcel> UpgradeExpData { get; private set; } = [];
     public static Dictionary<int, BreakLevelLimitExcel> BreakLevelLimitData { get; private set; } = [];
     public static Dictionary<int, RecycleExcel> RecycleData { get; private set; } = [];
+    public static Dictionary<uint, ChapterLevelExcel> ChapterLevelData { get; private set; } = [];
 }
 
 public static class GameResourceTemplateId
