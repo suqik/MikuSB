@@ -1,7 +1,9 @@
 # MikuSB
 
 Snowbreak: Containment Zone private server reimplementation written in C#.  
-`SdkServer`, `GameServer`, and an optional local HTTP/HTTPS proxy are started from a single `net9.0` application.
+`SdkServer`, `GameServer`, and an optional local HTTP/HTTPS proxy are started from a single `net9.0` application.  
+
+[Discord](https://discord.gg/aMwCu9JyUR)
 
 日本語のドキュメントは [README_jp.md](README_jp.md) にあります。
 

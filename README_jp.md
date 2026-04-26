@@ -1,7 +1,9 @@
 # MikuSB
 
 Snowbreak: Containment Zone 向けの C# 製プライベートサーバー再実装です。  
-`SdkServer`、`GameServer`、任意のローカル HTTP/HTTPS プロキシを 1 つの `net9.0` アプリとして起動します。
+`SdkServer`、`GameServer`、任意のローカル HTTP/HTTPS プロキシを 1 つの `net9.0` アプリとして起動します。  
+
+[Discord](https://discord.gg/aMwCu9JyUR)
 
 English documentation is available in [README.md](README.md).
 
