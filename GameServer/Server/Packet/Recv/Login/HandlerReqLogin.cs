@@ -3,6 +3,7 @@ using MikuSB.Database;
 using MikuSB.Database.Account;
 using MikuSB.Database.Player;
 using MikuSB.GameServer.Game.Player;
+using MikuSB.GameServer.Server.Packet.Send.Friend;
 using MikuSB.GameServer.Server.Packet.Send.Login;
 using MikuSB.Proto;
 using MikuSB.TcpSharp;
@@ -47,5 +48,6 @@ public class HandlerReqLogin : Handler
         connection.Player.Connection = connection;
         await connection.SendPacket(new PacketRspLogin(connection.Player!));
         await connection.Player.OnHeartBeat();
+        await connection.SendPacket(new PacketNtfUpdateFriend(connection.Player!));
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace MikuSB.Configuration;
+﻿using MikuSB.Proto;
+
+namespace MikuSB.Configuration;
 
 public class ConfigContainer
 {
@@ -74,7 +76,10 @@ public class ServerOption
 public class ServerProfile
 {
     public string Name { get; set; } = "Miku-chan";
+    public string Signature { get; set; } = "SnowBreak Private Server";
     public int Uid { get; set; } = 80;
+    public int Level { get; set; } = 100;
+    public Sex Gender { get; set; } = Sex.Female;
 }
 
 public class ProxyOptions

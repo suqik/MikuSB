@@ -1,13 +1,17 @@
-﻿using MikuSB.Data;
+﻿using Google.Protobuf;
+using MikuSB.Data;
 using MikuSB.Database;
 using MikuSB.Database.Account;
 using MikuSB.Database.Player;
 using MikuSB.Enums.Item;
+using MikuSB.GameServer.Command;
 using MikuSB.GameServer.Game.Character;
 using MikuSB.GameServer.Game.Inventory;
-using MikuSB.GameServer.Server;
 using MikuSB.GameServer.Game.Lineup;
+using MikuSB.GameServer.Server;
+using MikuSB.Proto;
 using MikuSB.TcpSharp;
+using MikuSB.Util;
 using MikuSB.Util.Extensions;
 
 namespace MikuSB.GameServer.Game.Player;
@@ -148,6 +152,10 @@ public class PlayerInstance(PlayerGameData data)
     {
         if (Connection?.IsOnline == true) await Connection.SendPacket(packet);
     }
+    public async ValueTask SendPacket(int cmdId, IMessage msg)
+    {
+        if (Connection?.IsOnline == true) await Connection.SendPacket(cmdId,msg);
+    }
 
     #endregion
 
@@ -158,9 +166,49 @@ public class PlayerInstance(PlayerGameData data)
         await Task.CompletedTask;
     }
 
+    public async ValueTask ReceiveMessage(uint sendUid, uint recvUid, string? message = null, uint? emojiId = null)
+    {
+        var data = new ChatMsg
+        {
+            Type = ChatType.Friend,
+            Sender = sendUid,
+            Recver = recvUid,
+            Emoji = emojiId ?? 0,
+            Text = message ?? "",
+            Profile = Data.ToProfileProto(),
+            TimeStamp = (uint)Extensions.GetUnixMs()
+        };
+
+        await SendPacket(CmdIds.NtfFriendChat, data);
+
+        if (recvUid == ConfigManager.Config.ServerOption.ServerProfile.Uid)
+        {
+            if (message != null)
+            {
+                if (message.StartsWith("/")) message = message[1..].Trim();
+                CommandExecutor.ExecuteCommand(new PlayerCommandSender(this), message);
+            }
+        }
+    }
+
     #endregion
 
     #region Serialization
+
+    public PlayerProfile ToServerFriendProto()
+    {
+        var server = ConfigManager.Config.ServerOption.ServerProfile;
+        var proto = new PlayerProfile
+        {
+            Pid = (uint)server.Uid,
+            Account = server.Name,
+            Name = server.Name,
+            Sex = server.Gender,
+            Level = (uint)server.Level,
+            Sign = server.Signature
+        };
+        return proto;
+    }
 
     public Proto.Player ToPlayerProto()
     {

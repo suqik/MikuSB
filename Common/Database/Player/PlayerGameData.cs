@@ -23,6 +23,20 @@ public class PlayerGameData : BaseDatabaseDataHelper
         var result = DatabaseHelper.GetInstance<PlayerGameData>((int)uid);
         return result;
     }
+
+    public PlayerProfile ToProfileProto()
+    {
+        var proto = new PlayerProfile
+        {
+            Pid = (uint)Uid,
+            Account = Name,
+            Name = Name,
+            Level = Level,
+            Sex = Gender,
+            Sign = Signature,
+        };
+        return proto;
+    }
     
 }
 

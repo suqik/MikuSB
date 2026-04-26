@@ -1,6 +1,8 @@
 ﻿using MikuSB.Enums.Player;
 using MikuSB.GameServer.Game.Player;
+using MikuSB.Proto;
 using MikuSB.Util;
+using MikuSB.Util.Extensions;
 
 namespace MikuSB.GameServer.Command;
 
@@ -31,7 +33,16 @@ public class PlayerCommandSender(PlayerInstance player) : ICommandSender
 
     public async ValueTask SendMsg(string msg)
     {
-        // TODO
+        var data = new ChatMsg
+        {
+            Type = ChatType.Friend,
+            Sender = (uint)ConfigManager.Config.ServerOption.ServerProfile.Uid,
+            Recver = (uint)Player.Uid,
+            Text = msg,
+            Profile = Player.ToServerFriendProto(),
+            TimeStamp = (uint)Extensions.GetUnixMs()
+        };
+        await Player.SendPacket(CmdIds.NtfFriendChat, data);
     }
 
     public int GetSender()
