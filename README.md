@@ -32,7 +32,7 @@ Snowbreak: Containment Zone private server reimplementation written in C#.
 
 ## Requirements
 
-- .NET SDK 9.0
+- [.NET SDK 9.0](https://dotnet.microsoft.com/ja-jp/download/dotnet/9.0)
 
 ## Running
 
