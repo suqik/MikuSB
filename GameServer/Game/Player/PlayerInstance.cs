@@ -43,7 +43,7 @@ public class PlayerInstance(PlayerGameData data)
     {
         // new player
         IsNewPlayer = true;
-        Data.Name = AccountData.GetAccountByUid(uid)?.Username;
+        Data.Name = PlayerGameData.NormalizeDisplayName(AccountData.GetAccountByUid(uid)?.Username);
 
         DatabaseHelper.CreateInstance(Data);
 
@@ -138,6 +138,7 @@ public class PlayerInstance(PlayerGameData data)
     public async ValueTask OnEnterGame()
     {
         if (!Initialized) await InitialPlayerManager();
+        Data.EnsureDisplayName();
         await CharacterManager.RepairCharacterWeapons();
         await EnsureSupplies();
     }
@@ -229,12 +230,13 @@ public class PlayerInstance(PlayerGameData data)
 
     public Proto.Player ToPlayerProto()
     {
+        var displayName = PlayerGameData.NormalizeDisplayName(Data.Name);
         var proto = new Proto.Player
         {
             Pid = (ulong)Data.Uid,
-            Account = Data.Name,
-            Provider = Data.Name,
-            Name = Data.Name,
+            Account = displayName,
+            Provider = displayName,
+            Name = displayName,
             Level = Data.Level,
             Sex = Data.Gender,
             Vigor = Data.Vigor,
@@ -261,6 +263,11 @@ public class PlayerInstance(PlayerGameData data)
         proto.ShowItems.AddRange(Data.ShowItems);
 
         return proto;
+    }
+
+    public void SetDisplayName(string? name)
+    {
+        Data.Name = PlayerGameData.NormalizeDisplayName(name);
     }
 
     public void SetShowItem(int index, ulong itemId)

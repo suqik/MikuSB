@@ -43,6 +43,8 @@ public class HandlerReqLogin : Handler
         connection.State = SessionStateEnum.WAITING_FOR_LOGIN;
         var pd = DatabaseHelper.GetInstance<PlayerGameData>(account.Uid);
         connection.Player = pd == null ? new PlayerInstance(account.Uid) : new PlayerInstance(pd);
+        if (connection.Player.Data.EnsureDisplayName())
+            DatabaseHelper.UpdateInstance(connection.Player.Data);
 
         connection.DebugFile = Path.Combine(ConfigManager.Config.Path.LogPath, "Debug/", $"{account.Uid}/",
             $"Debug-{DateTime.Now:yyyy-MM-dd HH-mm-ss}.log");

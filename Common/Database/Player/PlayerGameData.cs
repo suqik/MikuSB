@@ -7,6 +7,8 @@ namespace MikuSB.Database.Player;
 [SugarTable("Player")]
 public class PlayerGameData : BaseDatabaseDataHelper
 {
+    public const string DefaultDisplayName = "Miku";
+
     public string? Name { get; set; } = "";
     public string? Signature { get; set; } = "MikuPS";
     public uint Level { get; set; } = 100;
@@ -25,13 +27,30 @@ public class PlayerGameData : BaseDatabaseDataHelper
         return result;
     }
 
+    public static string NormalizeDisplayName(string? name)
+    {
+        var normalized = name?.Trim();
+        return string.IsNullOrWhiteSpace(normalized) ? DefaultDisplayName : normalized;
+    }
+
+    public bool EnsureDisplayName()
+    {
+        var normalized = NormalizeDisplayName(Name);
+        if (string.Equals(Name, normalized, StringComparison.Ordinal))
+            return false;
+
+        Name = normalized;
+        return true;
+    }
+
     public PlayerProfile ToProfileProto()
     {
+        var displayName = NormalizeDisplayName(Name);
         var proto = new PlayerProfile
         {
             Pid = (uint)Uid,
-            Account = Name,
-            Name = Name,
+            Account = displayName,
+            Name = displayName,
             Level = Level,
             Sex = Gender,
             Sign = Signature,
