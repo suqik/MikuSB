@@ -121,6 +121,7 @@ public class CommandTextCHT
     public HelpTextCHT Help { get; } = new();
     public GirlTextCHT Girl { get; } = new();
     public GiveAllTextCHT GiveAll { get; } = new();
+    public DebugTextCHT Debug { get; } = new();
 }
 
 #endregion
@@ -235,6 +236,21 @@ public class GiveAllTextCHT
     public string Usage => "用法: /giveall weapon <detail/-1> -p<particular> -l<level>";
     public string WeaponNotFound => "找不到武器！";
     public string WeaponAdded => "已添加 {0} 把武器給玩家！";
+}
+
+/// <summary>
+///     path: Game.Command.Debug
+/// </summary>
+public class DebugTextCHT
+{
+    public string Desc => "切換調試封包輸出";
+    public string Usage => "用法: /debug [on|off|simple|detail|file]";
+    public string Enabled => "已啟用調試封包輸出。";
+    public string Disabled => "已停用調試封包輸出。";
+    public string SimpleEnabled => "已啟用簡易調試封包輸出。";
+    public string DetailEnabled => "已啟用詳細調試封包輸出。";
+    public string FileEnabled => "個人調試檔案輸出已啟用。";
+    public string FileDisabled => "個人調試檔案輸出已停用。";
 }
 
 #endregion

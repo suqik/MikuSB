@@ -83,6 +83,7 @@ public class CommandTextEN
     public HelpTextEN Help { get; } = new();
     public GirlTextEN Girl { get; } = new();
     public GiveAllTextEN GiveAll { get; } = new();
+    public DebugTextEN Debug { get; } = new();
 }
 
 #endregion
@@ -204,6 +205,21 @@ public class GiveAllTextEN
     public string Usage => "Usage: /giveall weapon <detail/-1> -p<particular> -l<level>";
     public string WeaponNotFound => "Weapon not found!";
     public string WeaponAdded => "Added {0} weapon(s) to player!";
+}
+
+/// <summary>
+///     path: Game.Command.Debug
+/// </summary>
+public class DebugTextEN
+{
+    public string Desc => "Toggle debug packet output";
+    public string Usage => "Usage: /debug [on|off|simple|detail|file]";
+    public string Enabled => "Debug packet output enabled.";
+    public string Disabled => "Debug packet output disabled.";
+    public string SimpleEnabled => "Simple debug packet output enabled.";
+    public string DetailEnabled => "Detailed debug packet output enabled.";
+    public string FileEnabled => "Personal debug file output enabled.";
+    public string FileDisabled => "Personal debug file output disabled.";
 }
 
 #endregion

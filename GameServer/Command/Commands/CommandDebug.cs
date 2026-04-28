@@ -1,6 +1,7 @@
 using MikuSB.Configuration;
 using MikuSB.Enums.Player;
 using MikuSB.Util;
+using MikuSB.Internationalization;
 
 namespace MikuSB.GameServer.Command.Commands;
 
@@ -19,7 +20,7 @@ public class CommandDebug : ICommands
             "on" => EnableDebug(serverOption),
             "off" => DisableDebug(serverOption),
             "simple" => EnableSimpleDebug(serverOption),
-            "detail" => EnableDebug(serverOption),
+            "detail" => EnableDetailDebug(serverOption),
             "file" => ToggleDebugFile(serverOption),
             _ => "Usage: /debug [on|off|simple|detail|file]"
         };
@@ -33,13 +34,13 @@ public class CommandDebug : ICommands
         serverOption.EnableDebug = true;
         serverOption.DebugMessage = true;
         serverOption.DebugDetailMessage = true;
-        return "Debug packet output enabled.";
+        return I18NManager.Translate("Game.Command.Debug.Enabled");
     }
 
     private static string DisableDebug(ServerOption serverOption)
     {
         serverOption.EnableDebug = false;
-        return "Debug packet output disabled.";
+        return I18NManager.Translate("Game.Command.Debug.Disabled");
     }
 
     private static string EnableSimpleDebug(ServerOption serverOption)
@@ -47,14 +48,22 @@ public class CommandDebug : ICommands
         serverOption.EnableDebug = true;
         serverOption.DebugMessage = true;
         serverOption.DebugDetailMessage = false;
-        return "Simple debug packet output enabled.";
+        return I18NManager.Translate("Game.Command.Debug.SimpleEnabled");
+    }
+
+    private static string EnableDetailDebug(ServerOption serverOption)
+    {
+        serverOption.EnableDebug = true;
+        serverOption.DebugMessage = true;
+        serverOption.DebugDetailMessage = true;
+        return I18NManager.Translate("Game.Command.Debug.DetailEnabled");
     }
 
     private static string ToggleDebugFile(ServerOption serverOption)
     {
         serverOption.SavePersonalDebugFile = !serverOption.SavePersonalDebugFile;
         return serverOption.SavePersonalDebugFile
-            ? "Personal debug file output enabled."
-            : "Personal debug file output disabled.";
+            ? I18NManager.Translate("Game.Command.Debug.FileEnabled")
+            : I18NManager.Translate("Game.Command.Debug.FileDisabled");
     }
 }
