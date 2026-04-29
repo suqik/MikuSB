@@ -62,7 +62,7 @@ public class MikuSB
 
         await consoleTask;
 
-        ProcessExit(Volatile.Read(ref _exitCode));
+        await ProcessExit(Volatile.Read(ref _exitCode));
     }
 
     #region Exit
@@ -96,11 +96,15 @@ public class MikuSB
         _cts.Cancel();
     }
 
-    private static void ProcessExit(int exitCode)
+    private static async Task ProcessExit(int exitCode)
     {
         SocketListener.Connections.Values.ToList().ForEach(x => x.Stop(true));
-        DatabaseHelper.SaveThread?.Interrupt();
-        DatabaseHelper.SaveDatabase();
+
+        DatabaseHelper.Stop();          // notify stop
+        await DatabaseHelper.WaitAsync(); // wait AutoSave thread exit
+
+        DatabaseHelper.SaveDatabase(); // final flush
+
         Environment.Exit(exitCode);
     }
 
