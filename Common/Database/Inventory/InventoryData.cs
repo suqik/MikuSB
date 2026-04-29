@@ -56,6 +56,7 @@ public abstract class GrowableItemInfo : BaseGameItemInfo
     public new uint Level { get; set; }
     public new uint Exp { get; set; }
     public uint Break { get; set; }
+    public uint Evolue { get; set; }
     public uint EquipAvatarId { get; set; }
 }
 
@@ -73,7 +74,8 @@ public class GameWeaponInfo : GrowableItemInfo
             {
                 Level = Level,
                 Exp = Exp,
-                Break = Break
+                Break = Break,
+                Evolue = Evolue
             }
         };
         return proto;
